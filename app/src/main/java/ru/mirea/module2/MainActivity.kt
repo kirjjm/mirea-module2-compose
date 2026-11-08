@@ -63,7 +63,7 @@ fun ModuleApp(initialTask: Int = 1) {
                         6 -> CircleScreen()
                         7 -> ContactsScreen()
                         8, 9 -> WaterTracker()
-                        10 -> Text("Задание 10")
+                        10 -> ShoppingCartScreen()
                     }
                 }
             }

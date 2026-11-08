@@ -127,4 +127,64 @@ class ModuleUiTest {
         rule.onNodeWithTag("day_streak").assertTextEquals("Дней подряд с нормой 1500 мл: 1")
     }
 
+    @Test fun cartStartsWithCorrectSumAndRemovesLastProduct() {
+        openTask(10)
+        rule.onNodeWithTag("cart_total").assertTextEquals("Товаров на сумму: 306 рублей")
+        screenshot("10_initial_cart")
+        rule.onNodeWithTag("remove_product").performClick()
+        rule.onNodeWithTag("product_2").assertDoesNotExist()
+        rule.onNodeWithTag("cart_total").assertTextEquals("Товаров на сумму: 250 рублей")
+    }
+
+    @Test fun emptyCartHasNoRemoveButton() {
+        openTask(10)
+        repeat(3) { rule.onNodeWithTag("remove_product").performClick() }
+        rule.onNodeWithTag("remove_product").assertDoesNotExist()
+        rule.onNodeWithTag("product_count").assertTextEquals("Товаров: 0")
+        rule.onNodeWithTag("cart_total").assertTextEquals("Товаров на сумму: 0 рублей")
+        screenshot("10_empty_cart")
+    }
+
+    @Test fun cartNotifiesOnlyWhenAddedSumExceeds500() {
+        val notices = mutableListOf<Int>()
+        var calls = 0
+        rule.setContent { ModuleTheme {
+            ShoppingCartScreen(priceProvider = { if (calls++ == 0) 194 else 1 },
+                deliveryNotice = { notices += it })
+        } }
+        rule.onNodeWithTag("add_product").performClick()
+        rule.onNodeWithTag("cart_total").assertTextEquals("Товаров на сумму: 500 рублей")
+        rule.runOnIdle { assertEquals(emptyList<Int>(), notices) }
+        rule.onNodeWithTag("add_product").performClick()
+        rule.onNodeWithTag("cart_total").assertTextEquals("Товаров на сумму: 501 рублей")
+        rule.runOnIdle { assertEquals(listOf(501), notices) }
+        rule.onNodeWithTag("remove_product").performClick()
+        rule.onNodeWithTag("cart_total").assertTextEquals("Товаров на сумму: 500 рублей")
+        rule.runOnIdle { assertEquals(listOf(501), notices) }
+    }
+
+    @Test fun unrelatedRecompositionDoesNotInflateSumOrRepeatNotice() {
+        val external = mutableIntStateOf(0)
+        val notices = mutableListOf<Int>()
+        rule.setContent { ModuleTheme {
+            // Смена внешнего состояния меняет параметр функции, вызывая рекомпозицию.
+            val token = external.intValue
+            ShoppingCartScreen(priceProvider = { 200 + token }, deliveryNotice = { notices += it })
+        } }
+        rule.onNodeWithTag("add_product").performClick()
+        rule.onNodeWithTag("cart_total").assertTextEquals("Товаров на сумму: 506 рублей")
+        rule.runOnIdle { external.intValue++ }
+        rule.onNodeWithTag("cart_total").assertTextEquals("Товаров на сумму: 506 рублей")
+        rule.onNodeWithTag("product_count").assertTextEquals("Товаров: 4")
+        rule.runOnIdle { assertEquals(listOf(506), notices) }
+    }
+
+    @Test fun cartSurvivesStateRestoration() {
+        val restoration = StateRestorationTester(rule)
+        restoration.setContent { ModuleTheme { ShoppingCartScreen(priceProvider = { 10 }) } }
+        rule.onNodeWithTag("add_product").performClick()
+        restoration.emulateSavedInstanceStateRestore()
+        rule.onNodeWithTag("cart_total").assertTextEquals("Товаров на сумму: 316 рублей")
+        rule.onNodeWithTag("product_count").assertTextEquals("Товаров: 4")
+    }
 }
