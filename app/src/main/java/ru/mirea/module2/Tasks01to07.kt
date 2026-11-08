@@ -64,3 +64,14 @@ fun TextStylesScreen() {
     }
 }
 
+// Задание 4.
+@Composable
+fun StyledButtonScreen() {
+    Button(onClick = {}, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+        shape = RoundedCornerShape(16.dp), border = BorderStroke(2.dp, Color.Gray),
+        elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray, contentColor = Color.Black)) {
+        Text("Нажми на меня", fontSize = 18.sp)
+    }
+}
+
