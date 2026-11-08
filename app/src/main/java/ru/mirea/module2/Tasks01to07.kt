@@ -114,3 +114,75 @@ fun CircleScreen() {
     }
 }
 
+data class Contact(val name: String, val patronymic: String, val surname: String,
+    val phone: String, val address: String)
+
+val sampleContacts = listOf(
+    Contact("Евгений", "Андреевич", "Лукашин", "+7 495 95 95 95", "г. Москва, 3-я улица Строителей, д. 25, кв. 12"),
+    Contact("Василий", "Егорович", "Кузякин", "—", "Ивановская область, дер. Крутово, д. 4"),
+    Contact("Людмила", "Прокофьевна", "Калугина", "+7 495 788 78 78", "Москва, Большая Никитская, д. 43, кв. 290")
+)
+
+@Composable
+fun ContactColumn(contact: Contact, centered: Boolean = false, modifier: Modifier = Modifier) {
+    val alignment = if (centered) Alignment.CenterHorizontally else Alignment.Start
+    val textAlign = if (centered) TextAlign.Center else TextAlign.Start
+    Column(modifier, horizontalAlignment = alignment) {
+        listOf("Имя: ${contact.name}", "Отчество: ${contact.patronymic}",
+            "Фамилия: ${contact.surname}", "Мобильный телефон: ${contact.phone}",
+            "Адрес: ${contact.address}").forEach {
+            Text(it, textAlign = textAlign, fontSize = 14.sp, lineHeight = 18.sp)
+        }
+    }
+}
+
+@Composable
+fun ContactList() {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        sampleContacts.forEach { contact ->
+            ContactColumn(contact, centered = true,
+                modifier = Modifier.fillMaxWidth().background(Color.LightGray).padding(8.dp))
+        }
+    }
+}
+
+@Composable
+fun ContactRow() {
+    Row(Modifier.fillMaxWidth().background(Color.LightGray).padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically) {
+        ContactColumn(sampleContacts.first(), centered = true, modifier = Modifier.weight(1f))
+        Image(painterResource(R.drawable.star), "Избранный контакт", modifier = Modifier.size(28.dp))
+    }
+}
+
+@Composable
+fun ContactsScreen() {
+    ScrollContent {
+        Text("Контакт · Column", style = MaterialTheme.typography.labelLarge)
+        ContactColumn(sampleContacts.first())
+        Text("Список контактов · Column", style = MaterialTheme.typography.labelLarge)
+        ContactList()
+        Text("Контакт с изображением · Row", style = MaterialTheme.typography.labelLarge)
+        ContactRow()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TextStylesPreview() { ModuleTheme { TextStylesScreen() } }
+
+@Preview(showBackground = true, widthDp = 411)
+@Composable
+fun ButtonPreview() { ModuleTheme { StyledButtonScreen() } }
+
+@Preview(showBackground = true, widthDp = 411)
+@Composable
+fun InitialsPreview() { ModuleTheme { InitialsScreen() } }
+
+@Preview(showBackground = true)
+@Composable
+fun CirclesPreview() { ModuleTheme { CircleScreen() } }
+
+@Preview(showBackground = true, widthDp = 411, heightDp = 900)
+@Composable
+fun ContactsPreview() { ModuleTheme { ContactsScreen() } }
