@@ -86,3 +86,31 @@ fun InitialsScreen() {
     }
 }
 
+// Задание 6. Исходный ресурс 48 x 48 dp и второй вариант с растяжением.
+@Composable
+fun OriginalCircle() {
+    Box(Modifier.size(240.dp, 120.dp).background(Color.Black)) {
+        Image(painterResource(R.drawable.circle), "Оранжевый круг",
+            modifier = Modifier.size(48.dp).align(Alignment.TopEnd))
+    }
+}
+
+@Composable
+fun StretchedCircle() {
+    Box(Modifier.size(240.dp, 120.dp).background(Color.Blue), contentAlignment = Alignment.Center) {
+        Image(painterResource(R.drawable.circle), "Фиолетовый круг",
+            modifier = Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds,
+            colorFilter = ColorFilter.tint(Color(0xFF800080)))
+    }
+}
+
+@Composable
+fun CircleScreen() {
+    ScrollContent {
+        Text("Исходный размер · правый верхний угол")
+        OriginalCircle()
+        Text("Растяжение и изменение цвета")
+        StretchedCircle()
+    }
+}
+

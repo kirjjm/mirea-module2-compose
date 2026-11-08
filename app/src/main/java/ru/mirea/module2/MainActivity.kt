@@ -60,7 +60,7 @@ fun ModuleApp(initialTask: Int = 1) {
                         3 -> TextStylesScreen()
                         4 -> StyledButtonScreen()
                         5 -> InitialsScreen()
-                        6 -> Text("Задание 6")
+                        6 -> CircleScreen()
                         7 -> Text("Задание 7")
                         8, 9 -> Text("Задание 8")
                         10 -> Text("Задание 10")
