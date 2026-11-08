@@ -55,7 +55,7 @@ fun ModuleApp(initialTask: Int = 1) {
             key(task) {
                 Box(Modifier.weight(1f).fillMaxWidth()) {
                     when (task) {
-                        1 -> Text("Задание 1")
+                        1 -> Hello(BuildConfig.HELLO_NAME)
                         2 -> Text("Задание 2")
                         3 -> Text("Задание 3")
                         4 -> Text("Задание 4")
