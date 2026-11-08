@@ -75,3 +75,14 @@ fun StyledButtonScreen() {
     }
 }
 
+// Задание 5. 100 - 16 - 16 = 68 dp для круглого компонента.
+@Composable
+fun InitialsScreen() {
+    Box(Modifier.fillMaxWidth().height(100.dp).background(Color.LightGray).padding(vertical = 16.dp),
+        contentAlignment = Alignment.Center) {
+        Surface(Modifier.fillMaxHeight().aspectRatio(1f), shape = CircleShape, color = Color(0xFFFF5722)) {
+            Box(contentAlignment = Alignment.Center) { Text("КФ", color = Color.Black) }
+        }
+    }
+}
+

@@ -59,7 +59,7 @@ fun ModuleApp(initialTask: Int = 1) {
                         2 -> Hello(BuildConfig.HELLO_NAME)
                         3 -> TextStylesScreen()
                         4 -> StyledButtonScreen()
-                        5 -> Text("Задание 5")
+                        5 -> InitialsScreen()
                         6 -> Text("Задание 6")
                         7 -> Text("Задание 7")
                         8, 9 -> Text("Задание 8")
