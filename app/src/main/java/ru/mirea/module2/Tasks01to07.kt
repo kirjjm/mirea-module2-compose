@@ -32,3 +32,16 @@ fun Hello(name: String?) {
         modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.headlineSmall)
 }
 
+// Задание 2. Три независимых макета с системным UI.
+@Preview(name = "portrait", showSystemUi = true, device = "spec:width=411dp,height=891dp,dpi=420")
+@Preview(name = "landscape", showSystemUi = true, device = "spec:width=891dp,height=411dp,dpi=420")
+@Preview(name = "round", showSystemUi = true, showBackground = true,
+    backgroundColor = 0xFFFFFF00,
+    device = "spec:width=200dp,height=200dp,dpi=320,isRound=true")
+@Composable
+fun HelloPreview() { ModuleTheme { Hello("Кирилл") } }
+
+@Preview(name = "null", showBackground = true)
+@Composable
+fun HelloNullPreview() { ModuleTheme { Hello(null) } }
+
