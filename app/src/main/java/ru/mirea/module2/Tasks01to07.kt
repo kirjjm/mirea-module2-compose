@@ -45,3 +45,22 @@ fun HelloPreview() { ModuleTheme { Hello("Кирилл") } }
 @Composable
 fun HelloNullPreview() { ModuleTheme { Hello(null) } }
 
+// Задание 3. Строка находится в res/values/strings.xml.
+@Composable
+fun TextStylesScreen() {
+    val definition = stringResource(R.string.compose_definition)
+    ScrollContent {
+        Text("Зелёный курсив · 16 sp", style = MaterialTheme.typography.labelLarge)
+        Text(definition, color = Color.Green, fontSize = 16.sp,
+            fontStyle = FontStyle.Italic, textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth())
+        Text("Одна строка с многоточием", style = MaterialTheme.typography.labelLarge)
+        Text(definition, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text("Отступ первой строки · 48 sp", style = MaterialTheme.typography.labelLarge)
+        Text(definition, fontSize = 24.sp, color = Color.Black,
+            textDecoration = TextDecoration.Underline,
+            style = TextStyle(textIndent = TextIndent(firstLine = 48.sp)),
+            modifier = Modifier.fillMaxWidth().background(Color.Green))
+    }
+}
+

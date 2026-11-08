@@ -57,7 +57,7 @@ fun ModuleApp(initialTask: Int = 1) {
                     when (task) {
                         1 -> Hello(BuildConfig.HELLO_NAME)
                         2 -> Hello(BuildConfig.HELLO_NAME)
-                        3 -> Text("Задание 3")
+                        3 -> TextStylesScreen()
                         4 -> Text("Задание 4")
                         5 -> Text("Задание 5")
                         6 -> Text("Задание 6")
